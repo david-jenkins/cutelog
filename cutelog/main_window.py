@@ -1,4 +1,5 @@
 from datetime import datetime
+from importlib import resources
 from qtpy.QtCore import QFile, Qt, QTextStream, QThread, Signal
 from qtpy.QtWidgets import (QFileDialog, QInputDialog, QMainWindow, QMenuBar,
                             QStatusBar, QTabWidget, QProgressDialog)
@@ -13,6 +14,7 @@ from .settings_dialog import SettingsDialog
 from .utils import (center_widget_on_screen, show_critical_dialog,
                     show_warning_dialog)
 
+from .resources import light_theme_qss, dark_theme_qss
 
 class MainWindow(QMainWindow):
 
@@ -228,22 +230,22 @@ class MainWindow(QMainWindow):
         if CONFIG['light_theme_is_native']:
             self.set_style_to_stock()
             return
-        f = QFile(":/light_theme.qss")
-        f.open(QFile.ReadOnly | QFile.Text)
-        ts = QTextStream(f)
-        qss = ts.readAll()
+        # f = QFile(":/light_theme.qss")
+        # f.open(QFile.ReadOnly | QFile.Text)
+        # ts = QTextStream(f)
+        # qss = ts.readAll()
         # f = open(Config.get_resource_path('light_theme.qss', 'resources/ui'), 'r')
         # qss = f.read()
-        self.app.setStyleSheet(qss)
+        self.app.setStyleSheet(light_theme_qss)
 
     def reload_dark_style(self):
-        f = QFile(":/dark_theme.qss")
-        f.open(QFile.ReadOnly | QFile.Text)
-        ts = QTextStream(f)
-        qss = ts.readAll()
+        # f = QFile(":/dark_theme.qss")
+        # f.open(QFile.ReadOnly | QFile.Text)
+        # ts = QTextStream(f)
+        # qss = ts.readAll()
         # f = open(Config.get_resource_path('dark_theme.qss', 'resources/ui'), 'r')
         # qss = f.read()
-        self.app.setStyleSheet(qss)
+        self.app.setStyleSheet(dark_theme_qss)
 
     def set_style_to_stock(self):
         self.app.setStyleSheet('')

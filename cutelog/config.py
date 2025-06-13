@@ -1,11 +1,12 @@
 import enum
+from importlib import resources
 import logging
 import os
 import sys
 from collections import namedtuple
-from distutils.version import StrictVersion
+from packaging.version import Version
 
-from pkg_resources import get_distribution, resource_filename
+from importlib.metadata import distribution
 from qtpy import QT_VERSION
 from qtpy.QtCore import QCoreApplication, QFile, QObject, QSettings, Qt, Signal, QCommandLineParser, QCommandLineOption, QStandardPaths
 
@@ -125,7 +126,7 @@ class Config(QObject):
         self.update_attributes()
 
     def post_init(self):
-        running_version = StrictVersion(QCoreApplication.applicationVersion())
+        running_version = Version(QCoreApplication.applicationVersion())
         config_version = self.options['cutelog_version']
         if config_version == "" or config_version != running_version:
             self.save_running_version()
@@ -156,16 +157,16 @@ class Config(QObject):
 
     @staticmethod
     def get_resource_path(name, directory='ui'):
-        data_dir = resource_filename('cutelog', directory)
+        data_dir = str(resources.files('cutelog.resources').joinpath(directory))
         path = os.path.join(data_dir, name)
         if not os.path.exists(path):
             raise FileNotFoundError('Resource file not found in this path: "{}"'.format(path))
         return path
 
     def get_ui_qfile(self, name):
-        file = QFile(':/ui/{}'.format(name))
+        file = QFile(str(resources.files("cutelog.resources.ui").joinpath(name)))
         if not file.exists():
-            raise FileNotFoundError('ui file not found: ":/ui/{}"'.format(name))
+            raise FileNotFoundError('ui file not found: "{}"'.format(file))
         file.open(QFile.ReadOnly)
         return file
 
@@ -378,7 +379,7 @@ def init_qt_info():
     QCoreApplication.setOrganizationName('busimus')
     QCoreApplication.setOrganizationDomain('busz.me')
     QCoreApplication.setApplicationName('cutelog')
-    version = get_distribution(QCoreApplication.applicationName()).version
+    version = distribution(QCoreApplication.applicationName()).version
     QCoreApplication.setApplicationVersion(version)
     if not QT55_COMPAT:  # this attribute was introduced in Qt 5.6
         QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
