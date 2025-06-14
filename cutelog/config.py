@@ -1,5 +1,5 @@
 import enum
-from importlib import resources
+from importlib.resources import files, as_file
 import logging
 import os
 import sys
@@ -157,14 +157,14 @@ class Config(QObject):
 
     @staticmethod
     def get_resource_path(name, directory='ui'):
-        data_dir = str(resources.files('cutelog.resources').joinpath(directory))
-        path = os.path.join(data_dir, name)
-        if not os.path.exists(path):
-            raise FileNotFoundError('Resource file not found in this path: "{}"'.format(path))
-        return path
+        with as_file(files('cutelog.resources').joinpath(directory).joinpath(name)) as data_path:
+            if not data_path.exists():
+                raise FileNotFoundError('Resource file not found in this path: "cutelog.resources.{}.{}"'.format(directory, name))
+            return str(data_path)
 
     def get_ui_qfile(self, name):
-        file = QFile(str(resources.files("cutelog.resources.ui").joinpath(name)))
+        with as_file(files('cutelog.resources').joinpath("ui").joinpath(name)) as data_path:
+            file = QFile(str(data_path))
         if not file.exists():
             raise FileNotFoundError('ui file not found: "{}"'.format(file))
         file.open(QFile.ReadOnly)

@@ -1,5 +1,4 @@
 from datetime import datetime
-from importlib import resources
 from qtpy.QtCore import QFile, Qt, QTextStream, QThread, Signal
 from qtpy.QtWidgets import (QFileDialog, QInputDialog, QMainWindow, QMenuBar,
                             QStatusBar, QTabWidget, QProgressDialog)
