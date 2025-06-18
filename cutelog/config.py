@@ -112,8 +112,6 @@ class Config(QObject):
         self.options = None
         self.option_spec = self.load_option_spec()
         self.options = self.load_options()
-        self.full_name = "{} {}".format(QCoreApplication.applicationName(),
-                                        QCoreApplication.applicationVersion())
 
         # options that need fast access are also defined as attributes, which
         # are updated by calling update_attributes()
@@ -126,6 +124,8 @@ class Config(QObject):
         self.update_attributes()
 
     def post_init(self):
+        self.full_name = "{} {}".format(QCoreApplication.applicationName(),
+                                        QCoreApplication.applicationVersion())
         running_version = Version(QCoreApplication.applicationVersion())
         config_version = self.options['cutelog_version']
         if config_version == "" or config_version != running_version:
@@ -428,7 +428,5 @@ def parse_cmdline(log):
         logfiles = parser.positionalArguments()
     return (overrides, logfiles)
 
-init_qt_info()
 ROOT_LOG = init_logging()
 CONFIG = Config(ROOT_LOG)
-CONFIG.post_init()

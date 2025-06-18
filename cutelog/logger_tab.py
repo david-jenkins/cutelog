@@ -1066,7 +1066,6 @@ class LoggerTab(QWidget):
 
     def closeEvent(self, event=None):
         self.log.debug('Tab close event!')
-        self.stop_all_connections()
         if self.popped_out:
             self.main_window.close_popped_out_logger(self)
 
