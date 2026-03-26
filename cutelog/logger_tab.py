@@ -427,14 +427,14 @@ class RecordFilter(QSortFilterProxyModel):
 
     def set_filter(self, string, regexp, wildcard, casesensitive):
         if regexp:
-            self.setFilterRegExp(string)
+            self.setFilterRegularExpression(string)
         elif wildcard:
             self.setFilterWildcard(string)
         else:
             if not casesensitive:
                 string = string.lower()
             self.filter_string = string
-            self.setFilterRegExp("")
+            self.setFilterRegularExpression("")
 
         self.search_filter = True
         self.setFilterCaseSensitivity(casesensitive)
@@ -443,7 +443,7 @@ class RecordFilter(QSortFilterProxyModel):
     def clear_filter(self):
         self.search_filter = False
         self.filter_string = ""
-        self.setFilterRegExp("")
+        self.setFilterRegularExpression("")
         self.invalidateFilter()
 
 
@@ -527,7 +527,7 @@ class LoggerTab(QWidget):
         self.set_columns_sizes()
 
     def setupUi(self):
-        self.ui = loadUi(CONFIG.get_ui_qfile('logger.ui'), baseinstance=self)
+        self.ui = loadUi(CONFIG.get_ui_qfile('logger.ui').fileName(), baseinstance=self)
         self.table_header = LoggerTableHeader(self.loggerTable.horizontalHeader())
         self.record_model = LogRecordModel(self, self.level_filter.levels, self.table_header)
 
