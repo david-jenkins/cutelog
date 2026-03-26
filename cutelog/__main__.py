@@ -3,14 +3,6 @@ import sys
 import qtpy
 
 
-if not qtpy.PYQT5 and not qtpy.PYSIDE2:
-    if sys.platform == 'linux':
-        sys.exit("Error: a compatible Qt library couldn't be imported.\n"
-                 "Please install python3-pyqt5 (or just python-pyqt5) from your package manager.")
-    else:  # this technically shouldn't ever happen
-        sys.exit("Error: a compatible Qt library couldn't be imported.\n"
-                 "Please install it by running `pip install pyqt5")
-
 def add_local_handler(main_window):
     from .handler import LocalCuteLogHandler
     from .config import ROOT_LOG,CONFIG

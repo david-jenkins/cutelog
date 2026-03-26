@@ -1,6 +1,7 @@
 import qtpy
 from qtpy.QtCore import QMetaObject, Qt
-from qtpy.QtWidgets import QDesktopWidget, QMessageBox
+from qtpy.QtWidgets import QMessageBox
+from qtpy.QtGui import QGuiApplication
 from .text_view_dialog import TextViewDialog
 
 
@@ -37,7 +38,7 @@ def show_textview_dialog(parent, title, text, icon=QMessageBox.Information):
 
 def center_widget_on_screen(widget):
     rect = widget.frameGeometry()
-    center = QDesktopWidget().availableGeometry().center()
+    center = QGuiApplication.primaryScreen().availableGeometry().center()
     rect.moveCenter(center)
     widget.move(rect.topLeft())
 

@@ -4,6 +4,8 @@ import logging
 import os
 import sys
 from collections import namedtuple
+
+import qtpy
 from packaging.version import Version
 
 from importlib.metadata import distribution
@@ -107,7 +109,8 @@ class Config(QObject):
             self.log.setLevel(99)
         self.log.debug('Initializing')
         self.qsettings = QSettings()
-        self.qsettings.setIniCodec('UTF-8')
+        if qtpy.QT5:
+            self.qsettings.setIniCodec('UTF-8')
 
         self.options = None
         self.option_spec = self.load_option_spec()

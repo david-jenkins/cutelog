@@ -13,7 +13,6 @@ authors = [
   {name = 'Alexander Bus', email = 'busfromrus@gmail.com'},
 ]
 dependencies = [
-  'PyQt5',
   'qtpy',
   'jsonstream == 0.0.1',
 ]
