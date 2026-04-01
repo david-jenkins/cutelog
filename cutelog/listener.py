@@ -138,7 +138,7 @@ class LogConnection(QThread):
                 if sock.bytesAvailable() == 0:
                     new_data = sock.waitForReadyRead(100)  # wait for 100ms between read attempts
                     if not new_data:
-                        if sock.state() != sock.ConnectedState or self.need_to_stop():
+                        if sock.state() != sock.SocketState.ConnectedState or self.need_to_stop():
                             return None
                         else:
                             continue
